@@ -92,8 +92,12 @@
                     <span id="modal-horario" class="text-right font-light"></span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-green-400 font-medium">Plazas:</span>
+                    <span class="text-green-400 font-medium">Plazas Totales:</span>
                     <span id="modal-plazas" class="text-right text-green-300 font-semibold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-green-400 font-medium">Estado / Plazas Libres:</span>
+                    <span id="modal-plazas-libres" class="text-right text-cyan-300 font-semibold"></span>
                 </div>
             </div>
 
@@ -175,7 +179,8 @@
                     const sistema = row.Sistema || row.sistema || 'Rol de Mesa';
                     const director = row['Director de Juego'] || row.director || row.Director || 'Por asignar';
                     const horario = row.Horario || row.horario || 'Por definir';
-                    const plazas = row.Plazas || row.plazas || 'Libres';
+                    const plazasTotales = row.Plazas || row.plazas || 'Por definir';
+                    const plazasLibres = row['Plazas Libres'] || row.plazas_libres || 'Libres';
                     const descripcion = row.Descripción || row.descripcion || 'Sin descripción detallada.';
                     
                     let rawImg = row.imagen_url || row.imagen || '';
@@ -192,9 +197,9 @@
 
                     const enlaceInscripcion = row.enlace_inscripcion || row.enlace || '#';
 
-                    // Lógica para detectar si la partida está completa o quedan plazas
-                    const plazasLower = plazas.toLowerCase();
-                    const esCompleta = plazasLower.includes('completa') || plazasLower.startsWith('0/');
+                    // Lógica para detectar si la partida está completa o quedan plazas libres
+                    const libresLower = plazasLibres.toLowerCase();
+                    const esCompleta = libresLower.includes('completa') || libresLower.startsWith('0/');
                     const badgeClass = esCompleta 
                         ? 'bg-red-950/90 border border-red-500/50 text-red-300 font-bold' 
                         : 'bg-green-600 text-black font-bold';
@@ -206,7 +211,7 @@
                         <div>
                             <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
                                 <img src="${imagenUrl}" alt="${titulo}" class="w-full h-full object-cover object-top opacity-85 hover:scale-105 transition duration-500">
-                                <span class="absolute top-3 right-3 ${badgeClass} text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow">${plazas}</span>
+                                <span class="absolute top-3 right-3 ${badgeClass} text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow">${plazasLibres}</span>
                             </div>
                             
                             <div class="p-6">
@@ -226,8 +231,8 @@
                                         <span class="text-right font-light">${horario}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-green-400 font-medium">Plazas:</span>
-                                        <span class="text-right text-green-300 font-semibold">${plazas}</span>
+                                        <span class="text-green-400 font-medium">Plazas Totales:</span>
+                                        <span class="text-right text-green-300 font-semibold">${plazasTotales}</span>
                                     </div>
                                 </div>
                             </div>
@@ -261,6 +266,7 @@
             document.getElementById('modal-director').innerText = partida['Director de Juego'] || partida.director || partida.Director || '';
             document.getElementById('modal-horario').innerText = partida.Horario || partida.horario || '';
             document.getElementById('modal-plazas').innerText = partida.Plazas || partida.plazas || '';
+            document.getElementById('modal-plazas-libres').innerText = partida['Plazas Libres'] || partida.plazas_libres || '';
             document.getElementById('modal-descripcion').innerText = partida.Descripción || partida.descripcion || 'Sin descripción detallada.';
             
             let rawImg = partida.imagen_url || partida.imagen || '';
