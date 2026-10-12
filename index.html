@@ -7,15 +7,25 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- PapaParse para leer el CSV de Google Sheets directamente en el navegador -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         .font-cinzel { font-family: 'Cinzel', serif; }
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-image: url('imagenes/Arcadia_Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #05070c; /* Color de respaldo por si tarda en cargar */
+        }
     </style>
 </head>
-<body class="bg-[#0b0f19] text-gray-100 antialiased min-h-screen">
+<body class="text-gray-100 antialiased min-h-screen">
 
     <!-- Header / Navbar -->
-    <header class="bg-[#070911] border-b border-indigo-900/40 sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
+    <header class="bg-[#070911]/85 border-b border-indigo-900/40 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <span class="font-cinzel text-xl font-bold tracking-wider text-cyan-400">ARCADIA TALES</span>
@@ -23,166 +33,129 @@
             <nav class="hidden md:flex space-x-8 text-sm font-medium">
                 <a href="#inicio" class="text-cyan-400 font-semibold">Inicio</a>
                 <a href="#partidas" class="hover:text-cyan-300 transition">Partidas</a>
-                <a href="#horarios" class="hover:text-cyan-300 transition">Turnos Tarde/Noche</a>
                 <a href="#contacto" class="hover:text-cyan-300 transition">Contacto</a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-b from-[#070911] to-[#0b0f19] py-16 px-4 sm:px-6 lg:px-8 text-center border-b border-indigo-900/30">
+    <section id="inicio" class="relative py-20 px-4 sm:px-6 lg:px-8 text-center border-b border-indigo-900/30">
         <div class="max-w-4xl mx-auto">
-            <span class="inline-block bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-4">
+            <span class="inline-block bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-4 backdrop-blur-sm">
                 Jornadas de Rol • Tarde y Noche
             </span>
-            <h1 class="font-cinzel text-4xl sm:text-6xl font-bold tracking-tight text-white mb-6">
+            <h1 class="font-cinzel text-4xl sm:text-6xl font-bold tracking-tight text-white mb-6 drop-shadow-lg">
                 La historia empieza en ti, <span class="text-cyan-400">¿te atreves?</span>
             </h1>
-            <p class="text-lg text-indigo-200/80 max-w-2xl mx-auto">
+            <p class="text-lg text-indigo-200/90 max-w-2xl mx-auto drop-shadow">
                 Ven a vivir experiencias inolvidables en nuestras mesas de rol presenciales en Zaragoza. Sesiones épicas de tarde y misterios oscuros bajo la noche.
             </p>
         </div>
     </section>
 
-    <!-- Sección de Tarjetas de Partidas (Estructura adaptable a Excel / Base de Datos) -->
+    <!-- Sección de Partidas Dinámicas -->
     <section id="partidas" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div class="text-center mb-12">
-            <h2 class="font-cinzel text-3xl font-bold text-white mb-3">Partidas Disponibles</h2>
-            <p class="text-indigo-300/70 text-sm">Explora las mesas abiertas e inscríbete en tu próxima aventura.</p>
+            <h2 class="font-cinzel text-3xl font-bold text-white mb-3 drop-shadow">Partidas Disponibles</h2>
+            <p class="text-indigo-200/80 text-sm">Cargadas en tiempo real desde vuestro Google Sheet.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <!-- TARJETA 1 (Ejemplo de partida de Tarde) -->
-            <div class="bg-[#121826] border border-indigo-900/40 rounded-xl overflow-hidden shadow-2xl hover:border-cyan-500/50 transition duration-300 flex flex-col justify-between">
-                <div>
-                    <!-- Imagen de la partida / sistema -->
-                    <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Partida Rol" class="w-full h-full object-cover opacity-80 hover:scale-105 transition duration-500">
-                        <span class="absolute top-3 right-3 bg-purple-600/90 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">Turno Tarde</span>
-                    </div>
-                    
-                    <!-- Contenido de la tarjeta -->
-                    <div class="p-6">
-                        <h3 class="font-cinzel text-xl font-bold text-white mb-4 line-clamp-1">Las Sombras de Arkham</h3>
-                        
-                        <div class="space-y-2.5 text-sm text-indigo-100/90 border-t border-indigo-900/30 pt-4">
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Sistema:</span>
-                                <span class="text-right font-light">La Llamada de Cthulhu</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Máster:</span>
-                                <span class="text-right font-light">Alejandro G.</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Horario:</span>
-                                <span class="text-right font-light">16:30 - 20:30</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Plazas:</span>
-                                <span class="text-right text-cyan-400 font-semibold">2 / 5 libres</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Footer de la tarjeta con Botón y Branding -->
-                <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-indigo-900/20">
-                    <a href="#detalles" class="bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold px-5 py-2 rounded-lg text-sm transition shadow-md shadow-cyan-500/10">
-                        Detalles
-                    </a>
-                    <span class="font-cinzel text-xs font-bold tracking-widest text-indigo-400/60 uppercase">Arcadia Tales</span>
-                </div>
+        <!-- Contenedor donde se inyectarán automáticamente las tarjetas -->
+        <div id="partidas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-full text-center text-indigo-200 py-12">
+                Cargando partidas desde el Excel...
             </div>
-
-            <!-- TARJETA 2 (Ejemplo de partida de Noche) -->
-            <div class="bg-[#121826] border border-indigo-900/40 rounded-xl overflow-hidden shadow-2xl hover:border-cyan-500/50 transition duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
-                        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Partida Rol" class="w-full h-full object-cover opacity-80 hover:scale-105 transition duration-500">
-                        <span class="absolute top-3 right-3 bg-indigo-900/90 border border-indigo-500/30 text-cyan-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">Turno Noche</span>
-                    </div>
-                    
-                    <div class="p-6">
-                        <h3 class="font-cinzel text-xl font-bold text-white mb-4 line-clamp-1">Ecos del Imperio Caído</h3>
-                        
-                        <div class="space-y-2.5 text-sm text-indigo-100/90 border-t border-indigo-900/30 pt-4">
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Sistema:</span>
-                                <span class="text-right font-light">D&D 5ª Edición</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Máster:</span>
-                                <span class="text-right font-light">Elena M.</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Horario:</span>
-                                <span class="text-right font-light">21:30 - 01:30</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Plazas:</span>
-                                <span class="text-right text-red-400 font-semibold">Completa (0 libres)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-indigo-900/20">
-                    <a href="#detalles" class="bg-gray-800 hover:bg-gray-700 text-indigo-200 font-bold px-5 py-2 rounded-lg text-sm transition">
-                        Ver Mesa
-                    </a>
-                    <span class="font-cinzel text-xs font-bold tracking-widest text-indigo-400/60 uppercase">Arcadia Tales</span>
-                </div>
-            </div>
-
-            <!-- TARJETA 3 (Ejemplo adicional) -->
-            <div class="bg-[#121826] border border-indigo-900/40 rounded-xl overflow-hidden shadow-2xl hover:border-cyan-500/50 transition duration-300 flex flex-col justify-between">
-                <div>
-                    <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Partida Rol" class="w-full h-full object-cover opacity-80 hover:scale-105 transition duration-500">
-                        <span class="absolute top-3 right-3 bg-purple-600/90 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">Turno Tarde</span>
-                    </div>
-                    
-                    <div class="p-6">
-                        <h3 class="font-cinzel text-xl font-bold text-white mb-4 line-clamp-1">Fronteras del Espacio Profundo</h3>
-                        
-                        <div class="space-y-2.5 text-sm text-indigo-100/90 border-t border-indigo-900/30 pt-4">
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Sistema:</span>
-                                <span class="text-right font-light">Alien RPG</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Máster:</span>
-                                <span class="text-right font-light">Carlos S.</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Horario:</span>
-                                <span class="text-right font-light">17:00 - 21:00</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-indigo-400 font-medium">Plazas:</span>
-                                <span class="text-right text-cyan-400 font-semibold">1 / 4 libres</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-indigo-900/20">
-                    <a href="#detalles" class="bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold px-5 py-2 rounded-lg text-sm transition shadow-md shadow-cyan-500/10">
-                        Detalles
-                    </a>
-                    <span class="font-cinzel text-xs font-bold tracking-widest text-indigo-400/60 uppercase">Arcadia Tales</span>
-                </div>
-            </div>
-
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-[#070911] border-t border-indigo-900/40 py-8 text-center text-xs text-indigo-300/60">
+    <footer class="bg-[#070911]/90 border-t border-indigo-900/40 py-8 text-center text-xs text-indigo-300/60 backdrop-blur-sm">
         <p>&copy; 2026 Arcadia Tales • Club de Rol Zaragoza. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Script de conexión con Google Sheets -->
+    <script>
+        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXqX1BwrkdcZJhvV1kY6F_Od3OODbvDZoqlHhLv6HRbzC-TnvDgk6DjTLAtErLErcHjLK0SQUdNQNi/pub?output=csv";
+
+        Papa.parse(csvUrl, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                const data = results.data;
+                const container = document.getElementById('partidas-container');
+                container.innerHTML = ''; // Limpiar mensaje de carga
+
+                if (data.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center text-indigo-200 py-12">No hay partidas registradas en este momento.</div>';
+                    return;
+                }
+
+                data.forEach(row => {
+                    const titulo = row.titulo || row.Titulo || 'Partida sin título';
+                    const turno = row.turno || row.Turno || 'Tarde';
+                    const sistema = row.sistema || row.Sistema || 'Rol de Mesa';
+                    const master = row.master || row.Master || row.Máster || 'Por asignar';
+                    const horario = row.horario || row.Horario || 'Por definir';
+                    const plazas = row.plazas || row.Plazas || 'Libres';
+                    const imagenUrl = row.imagen_url || row.imagen || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
+                    const enlaceDetalles = row.enlace_detalles || row.enlace || '#';
+
+                    const esNoche = turno.toLowerCase().includes('noche');
+                    const badgeClass = esNoche 
+                        ? 'bg-indigo-900/90 border border-indigo-500/30 text-cyan-300' 
+                        : 'bg-purple-600/90 text-white';
+
+                    const card = document.createElement('div');
+                    card.className = "bg-[#0b101d]/90 backdrop-blur-md border border-indigo-900/50 rounded-xl overflow-hidden shadow-2xl hover:border-cyan-500/60 transition duration-300 flex flex-col justify-between";
+                    
+                    card.innerHTML = `
+                        <div>
+                            <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
+                                <img src="${imagenUrl}" alt="${titulo}" class="w-full h-full object-cover opacity-85 hover:scale-105 transition duration-500">
+                                <span class="absolute top-3 right-3 ${badgeClass} text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">${turno}</span>
+                            </div>
+                            
+                            <div class="p-6">
+                                <h3 class="font-cinzel text-xl font-bold text-white mb-4 line-clamp-1">${titulo}</h3>
+                                
+                                <div class="space-y-2.5 text-sm text-indigo-100/90 border-t border-indigo-900/30 pt-4">
+                                    <div class="flex justify-between">
+                                        <span class="text-indigo-400 font-medium">Sistema:</span>
+                                        <span class="text-right font-light">${sistema}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-indigo-400 font-medium">Máster:</span>
+                                        <span class="text-right font-light">${master}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-indigo-400 font-medium">Horario:</span>
+                                        <span class="text-right font-light">${horario}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-indigo-400 font-medium">Plazas:</span>
+                                        <span class="text-right text-cyan-400 font-semibold">${plazas}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-indigo-900/20">
+                            <a href="${enlaceDetalles}" target="_blank" class="bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold px-5 py-2 rounded-lg text-sm transition shadow-md shadow-cyan-500/20">
+                                Detalles
+                            </a>
+                            <span class="font-cinzel text-xs font-bold tracking-widest text-indigo-400/60 uppercase">Arcadia Tales</span>
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                });
+            },
+            error: function(err) {
+                console.error('Error al cargar el CSV:', err);
+                document.getElementById('partidas-container').innerHTML = '<div class="col-span-full text-center text-red-400 py-12">No se han podido cargar las partidas. Comprueba que el Google Sheet sea público.</div>';
+            }
+        });
+    </script>
 </body>
 </html>
