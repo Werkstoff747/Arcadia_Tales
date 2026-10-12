@@ -197,7 +197,6 @@
 
                     const enlaceInscripcion = row.enlace_inscripcion || row.enlace || '#';
 
-                    // Lógica para detectar si la partida está completa o quedan plazas libres
                     const libresLower = plazasLibres.toLowerCase();
                     const esCompleta = libresLower.includes('completa') || libresLower.startsWith('0/');
                     const badgeClass = esCompleta 
@@ -205,22 +204,25 @@
                         : 'bg-green-600 text-black font-bold';
 
                     const card = document.createElement('div');
-                    // Añadido 'relative' para contener el logo de fondo
                     card.className = "bg-black/90 backdrop-blur-md border border-green-500/30 rounded-xl overflow-hidden shadow-2xl hover:border-green-400 transition duration-300 flex flex-col justify-between relative";
                     
                     card.innerHTML = `
-                        <!-- Sutil marca de agua de arcadia_sinfondo.png con halo verde neón -->
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden opacity-10 z-0">
-                            <img src="imagenes/arcadia_sinfondo.png" alt="" class="w-48 h-auto filter drop-shadow-[0_0_20px_rgba(34,197,94,0.9)]">
-                        </div>
-
+                        <!-- Cabecera de la tarjeta con la imagen -->
                         <div class="relative z-10">
                             <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
                                 <img src="${imagenUrl}" alt="${titulo}" class="w-full h-full object-cover object-top opacity-85 hover:scale-105 transition duration-500">
                                 <span class="absolute top-3 right-3 ${badgeClass} text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow">${plazasLibres}</span>
                             </div>
-                            
-                            <div class="p-6">
+                        </div>
+
+                        <!-- Zona inferior negra con los datos y el logo sutil de fondo -->
+                        <div class="relative z-10 p-6 flex-1 flex flex-col justify-between overflow-hidden">
+                            <!-- Logo sutil centrado en la mitad inferior con halo verde neón -->
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0">
+                                <img src="imagenes/arcadia_sinfondo.png" alt="" class="w-32 h-auto filter drop-shadow-[0_0_15px_rgba(34,197,94,0.9)]">
+                            </div>
+
+                            <div class="relative z-10">
                                 <h3 class="font-cinzel text-xl font-bold text-white mb-4 line-clamp-1">${titulo}</h3>
                                 
                                 <div class="space-y-2.5 text-sm text-gray-300 border-t border-green-500/20 pt-4">
@@ -244,7 +246,8 @@
                             </div>
                         </div>
 
-                        <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-green-500/20 gap-4 relative z-10">
+                        <!-- Botones inferiores -->
+                        <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-green-500/20 gap-4 relative z-10 bg-black/40">
                             <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
                                 Detalles
                             </button>
