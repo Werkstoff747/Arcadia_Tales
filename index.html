@@ -10,10 +10,10 @@
     <!-- PapaParse para leer el CSV de Google Sheets -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
-        /* Declaración de la fuente Hellfire Club local */
+        /* Declaración de la fuente Hellfire Club con el nombre exacto y comillas para los espacios */
         @font-face {
             font-family: 'HellfireClub';
-            src: url('imagenes/hellfire.ttf') format('truetype');
+            src: url('imagenes/Hellfire Club.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -22,13 +22,12 @@
         
         body { 
             font-family: 'Inter', sans-serif;
-            /* Fondo ajustado con contain y position center top para que la ilustración vertical se vea completa en PC */
-            background-image: linear-gradient(to bottom, rgba(4, 6, 9, 0.78), rgba(4, 6, 9, 0.94)), url('imagenes/fondo_mesa_tales.jpg');
-            background-size: contain;
-            background-position: center top;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-color: #040609;
+            /* Fondo panorámico cubriendo todo el ancho de forma fluida */
+            background-image: linear-gradient(to bottom, rgba(4, 6, 9, 0.75), rgba(4, 6, 9, 0.92)), url('imagenes/fondo_mesa_tales.jpg');
+            background-size: 100% auto;
+            background-position: top center;
+            background-repeat: repeat-y;
+            background-color: #000000;
             min-height: 100vh;
         }
     </style>
