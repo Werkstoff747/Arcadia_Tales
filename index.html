@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcadia Tales - Jornadas de Rol (Tarde y Noche)</title>
+    <!-- Favicon con escudo pequeño -->
+    <link rel="icon" type="image/png" href="imagenes/escudo_pequeño.png">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,23 +22,31 @@
 
         .font-hellfire { font-family: 'HellfireClub', sans-serif; }
         
-        /* Estilo del logo: Interior negro con borde grueso verde neón */
+        /* Estilo del logo principal: Interior negro con borde verde neón extra grueso */
         .logo-text {
             color: #000000;
-            -webkit-text-stroke: 6px #22c55e;
+            -webkit-text-stroke: 9px #22c55e;
             paint-order: stroke fill;
-            filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.7));
+            filter: drop-shadow(0 0 35px rgba(34, 197, 94, 0.8));
         }
 
         @media (max-width: 640px) {
             .logo-text {
-                -webkit-text-stroke: 3px #22c55e;
+                -webkit-text-stroke: 4px #22c55e;
             }
+        }
+
+        /* Efecto profesional para clubocioarcadia.png: Blanco puro con reborde negro nítido */
+        .logo-club-efecto {
+            filter: brightness(0) invert(1) 
+                    drop-shadow(1.5px 1.5px 0px #000) 
+                    drop-shadow(-1.5px -1.5px 0px #000) 
+                    drop-shadow(1.5px -1.5px 0px #000) 
+                    drop-shadow(-1.5px 1.5px 0px #000);
         }
         
         body { 
             font-family: 'Inter', sans-serif;
-            /* Fondo controlado y centrado con un punto más de visibilidad en la imagen */
             background-image: linear-gradient(to bottom, rgba(4, 6, 9, 0.78), rgba(4, 6, 9, 0.92)), url('imagenes/fondo_mesa_tales.jpg');
             background-size: 1200px auto;
             background-position: center top;
@@ -55,8 +65,8 @@
             <!-- Logo del Club a la izquierda -->
             <div class="flex items-center">
                 <a href="#inicio" class="flex items-center space-x-3">
-                    <img src="imagenes/Logo_250_ARCADIA.png" alt="Club Arcadia" class="h-12 w-12 object-contain rounded-full bg-white p-1 shadow-md">
-                    <span class="font-hellfire text-xl tracking-wider text-green-400 hidden sm:inline">ARCADIA TALES</span>
+                    <img src="imagenes/escudo_pequeño.png" alt="Club Arcadia" class="h-10 w-10 object-contain rounded-full bg-white p-1 shadow-md">
+                    <span class="font-hellfire text-2xl tracking-wider text-green-400 hidden sm:inline">ARCADIA TALES</span>
                 </a>
             </div>
 
@@ -79,7 +89,7 @@
                     Jornada de Rol • Tarde y Noche
                 </span>
 
-                <!-- 2. Logo principal en texto apilado (ARCADIA / TALES) con interior negro y borde grueso verde -->
+                <!-- 2. Logo principal en texto apilado (ARCADIA / TALES) -->
                 <h1 class="font-hellfire text-7xl sm:text-9xl tracking-wider leading-none mb-6">
                     <span class="block logo-text">ARCADIA</span>
                     <span class="block logo-text mt-2">TALES</span>
@@ -114,9 +124,10 @@
         <!-- Sección Ubicación y Comunidad -->
         <section id="ubicacion" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
             <div class="bg-black/85 border border-green-500/30 rounded-2xl p-8 sm:p-12 backdrop-blur-md shadow-2xl flex flex-col items-center">
-                <img src="imagenes/Logo_250_ARCADIA.png" alt="Club de Ocio Arcadia Cuarte de Huerva" class="h-28 w-auto mb-6 rounded-lg shadow-md bg-white p-1">
-                
-                <h2 class="font-hellfire text-3xl text-white mb-2 tracking-wide">Club Arcadia</h2>
+                <!-- Imagen clubocioarcadia.png con efecto blanco y borde negro -->
+                <div class="mb-6 px-4 py-2 bg-black/60 rounded-xl border border-green-500/20 max-w-xs w-full flex justify-center items-center">
+                    <img src="imagenes/clubocioarcadia.png" alt="Club de Ocio Arcadia" class="logo-club-efecto h-14 w-auto object-contain">
+                </div>
                 
                 <a href="https://maps.app.goo.gl/g7kaJYMXnKw6gaEb6" target="_blank" class="text-gray-300 hover:text-green-400 transition mb-6 block group">
                     Polígono Huertos, Nave 28 (junto al Espacio CDH)<br>
@@ -138,8 +149,13 @@
                     </a>
                 </div>
 
-                <div class="inline-block bg-green-500/20 border border-green-500/40 text-green-300 px-6 py-2 rounded-lg text-sm font-semibold">
+                <div class="inline-block bg-green-500/20 border border-green-500/40 text-green-300 px-6 py-2 rounded-lg text-sm font-semibold mb-8">
                     * Inscripción previa obligatoria *
+                </div>
+
+                <!-- Logo completo abajo en la sección de contacto -->
+                <div class="pt-6 border-t border-green-500/20 w-full flex justify-center">
+                    <img src="imagenes/logo_completo.png" alt="Club de Ocio Arcadia Cuarte de Huerva" class="h-32 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(34,197,94,0.3)]">
                 </div>
             </div>
         </section>
@@ -239,7 +255,7 @@
                     const esCompleta = libresLower.includes('completa') || libresLower.startsWith('0/');
                     const badgeClass = esCompleta 
                         ? 'bg-red-950/90 border border-red-500/50 text-red-300 font-bold' 
-                        : 'bg-green-600 text-black font-bold';
+                        : 'bg-green-500 text-black font-bold';
 
                     const card = document.createElement('div');
                     card.className = "bg-black/90 backdrop-blur-md border border-green-500/30 rounded-xl overflow-hidden shadow-2xl hover:border-green-400 transition duration-300 flex flex-col justify-between relative";
@@ -253,11 +269,11 @@
                             </div>
                         </div>
 
-                        <!-- Zona inferior negra con los datos y el logo sutil de fondo -->
+                        <!-- Zona inferior negra con los datos y el nuevo escudo_pequeño.png sutil de fondo -->
                         <div class="relative z-10 p-6 flex-1 flex flex-col justify-between overflow-hidden">
-                            <!-- Logo sutil centrado en la mitad inferior con halo verde neón -->
+                            <!-- Logo escudo_pequeño.png sutil centrado en la mitad inferior con halo verde neón -->
                             <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0">
-                                <img src="imagenes/arcadia_sinfondo.png" alt="" class="w-32 h-auto filter drop-shadow-[0_0_15px_rgba(34,197,94,0.9)]">
+                                <img src="imagenes/escudo_pequeño.png" alt="" class="w-32 h-auto filter drop-shadow-[0_0_15px_rgba(34,197,94,0.9)]">
                             </div>
 
                             <div class="relative z-10">
@@ -289,7 +305,7 @@
                             <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
                                 Detalles
                             </button>
-                            <a href="${enlaceInscripcion}" target="_blank" class="flex-1 bg-green-600 hover:bg-green-500 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
+                            <a href="${enlaceInscripcion}" target="_blank" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
                                 Inscribirse
                             </a>
                         </div>
