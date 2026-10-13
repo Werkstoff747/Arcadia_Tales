@@ -20,12 +20,12 @@
 
         .font-hellfire { font-family: 'HellfireClub', sans-serif; }
         
-        /* Efecto de logo: Interior negro con borde grueso verde neón */
+        /* Estilo del logo: Interior negro con borde grueso verde neón */
         .logo-text {
             color: #000000;
-            -webkit-text-stroke: 5px #22c55e; /* Borde grueso verde */
+            -webkit-text-stroke: 6px #22c55e;
             paint-order: stroke fill;
-            filter: drop-shadow(0 0 25px rgba(34, 197, 94, 0.6));
+            filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.7));
         }
 
         @media (max-width: 640px) {
@@ -36,7 +36,8 @@
         
         body { 
             font-family: 'Inter', sans-serif;
-            background-image: linear-gradient(to bottom, rgba(4, 6, 9, 0.90), rgba(4, 6, 9, 0.98)), url('imagenes/fondo_mesa_tales.jpg');
+            /* Fondo controlado y centrado con un punto más de visibilidad en la imagen */
+            background-image: linear-gradient(to bottom, rgba(4, 6, 9, 0.78), rgba(4, 6, 9, 0.92)), url('imagenes/fondo_mesa_tales.jpg');
             background-size: 1200px auto;
             background-position: center top;
             background-attachment: fixed;
@@ -78,10 +79,10 @@
                     Jornada de Rol • Tarde y Noche
                 </span>
 
-                <!-- 2. Logo principal en texto apilado (ARCADIA / TALES) con interior negro y borde verde -->
-                <h1 class="font-hellfire text-6xl sm:text-9xl tracking-wider leading-none mb-8">
+                <!-- 2. Logo principal en texto apilado (ARCADIA / TALES) con interior negro y borde grueso verde -->
+                <h1 class="font-hellfire text-7xl sm:text-9xl tracking-wider leading-none mb-6">
                     <span class="block logo-text">ARCADIA</span>
-                    <span class="block logo-text mt-2 sm:mt-0">TALES</span>
+                    <span class="block logo-text mt-2">TALES</span>
                 </h1>
                 
                 <!-- 3. Eslogan -->
