@@ -36,7 +36,7 @@
             }
         }
 
-        /* Efecto profesional para logotipos: Blanco puro con reborde negro nítido */
+        /* Efecto profesional para clubocioarcadia.png: Blanco puro con reborde negro nítido */
         .logo-club-efecto {
             filter: brightness(0) invert(1) 
                     drop-shadow(1.5px 1.5px 0px #000) 
@@ -69,11 +69,13 @@
     <!-- Header / Navbar -->
     <header class="bg-black/90 border-b border-green-500/30 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo del Club a la izquierda con escudo_pequeño.png integrado sin fondo blanco -->
+            <!-- Logo del Club a la izquierda con contenedor blanco elegante -->
             <div class="flex items-center">
                 <a href="#inicio" class="flex items-center space-x-3">
-                    <img src="imagenes/escudo_pequeño.png" alt="Club Arcadia" class="logo-club-efecto h-10 w-auto object-contain">
-                    <span class="font-hellfire text-2xl tracking-wider text-green-400 hidden sm:inline">TALES</span>
+                    <div class="bg-white p-1 rounded-md shadow-md flex items-center justify-center">
+                        <img src="imagenes/escudo_pequeño.png" alt="Club Arcadia" class="h-8 w-auto object-contain">
+                    </div>
+                    <span class="font-hellfire text-2xl tracking-wider text-green-400">ARCADIA TALES</span>
                 </a>
             </div>
 
@@ -131,7 +133,7 @@
         <!-- Sección Ubicación y Comunidad -->
         <section id="ubicacion" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
             <div class="bg-black/85 border border-green-500/30 rounded-2xl p-8 sm:p-12 backdrop-blur-md shadow-2xl flex flex-col items-center">
-                <!-- Logo clubocioarcadia.png expandido y SIN reborde verde -->
+                <!-- Logo clubocioarcadia.png expandido y sin reborde verde -->
                 <div class="mb-6 w-full flex justify-center items-center">
                     <img src="imagenes/clubocioarcadia.png" alt="Club de Ocio Arcadia" class="logo-club-efecto w-full max-w-2xl h-auto object-contain">
                 </div>
