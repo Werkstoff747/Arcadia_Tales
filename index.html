@@ -125,7 +125,7 @@
         <section id="partidas" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="font-hellfire text-4xl sm:text-5xl text-white mb-3 tracking-wide drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">PARTIDAS DISPONIBLES</h2>
-                <p class="text-gray-400 text-sm">Explora las aventuras de Tarde y Noche, consulta sus detalles o pulsa en "Ir a Inscripción" para apuntarte[cite: 1].</p>
+                <p class="text-gray-400 text-sm">Haz clic en "Detalles" para ver la portada completa y la sinopsis o en "Ir a Inscripción" para apuntarte.</p>
             </div>
 
             <!-- Contenedor dinámico de tarjetas -->
@@ -181,7 +181,7 @@
         <p>&copy; 2026 Arcadia Tales • Club de Ocio / Arcadia Cuarte de Huerva. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Modal de Detalles de Partida -->
+    <!-- Modal / Pop-up de Detalles -->
     <div id="modal-detalles" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
         <div class="bg-black/95 border border-green-500/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl shadow-green-500/10 max-h-[90vh] overflow-y-auto">
             <button onclick="cerrarModal()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
@@ -234,7 +234,7 @@
             <button onclick="cerrarModalInscripcion()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
             
             <h3 class="font-hellfire text-3xl text-white mb-2 tracking-wide text-center">Inscripción Arcadia Tales</h3>
-            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, tus preferencias de Tarde y Noche (hasta 3 opciones por turno) y si eres socio del club[cite: 1].</p>
+            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, tus preferencias de Tarde y Noche (hasta 3 opciones por turno) y si eres socio del club.</p>
             
             <form id="form-inscripcion" class="space-y-5">
                 <!-- Datos Personales -->
@@ -317,7 +317,7 @@
 
                 <!-- Capa RGPD Obligatoria -->
                 <div class="bg-green-950/20 border border-green-500/20 p-3 rounded-xl text-[11px] text-gray-400 space-y-2">
-                    <p><strong>Protección de Datos:</strong> Los datos facilitados serán tratados por el Club de Ocio Arcadia para la gestión exclusiva de las jornadas[cite: 1].</p>
+                    <p><strong>Protección de Datos:</strong> Los datos facilitados serán tratados por el Club de Ocio Arcadia para la gestión exclusiva de las jornadas.</p>
                     <div class="flex items-start space-x-2">
                         <input type="checkbox" id="rgpd-check" required class="mt-0.5 accent-green-500">
                         <label for="rgpd-check" class="text-gray-300 text-[11px] leading-tight">
@@ -356,7 +356,7 @@
                 const n2 = document.getElementById('noche-2');
                 const n3 = document.getElementById('noche-3');
 
-                // Limpiar selectores
+                // Limpiar selectores adicionales
                 [t1, t2, t3, n1, n2, n3].forEach(sel => {
                     sel.innerHTML = '<option value="">-- Sin preferencia --</option>';
                 });
@@ -374,8 +374,9 @@
                     const horario = row.Horario || row.horario || 'Por definir';
                     const plazasTotales = row.Plazas || row.plazas || 'Por definir';
                     const plazasLibres = row['Plazas Libres'] || row.plazas_libres || 'Libres';
+                    const descripcion = row.Descripción || row.descripcion || 'Sin descripción detallada.';
                     
-                    // Añadir opciones a los desplegables según el turno detectado
+                    // Alimentar automáticamente los desplegables del formulario según el horario
                     const horarioLower = horario.toLowerCase();
                     const opt = document.createElement('option');
                     opt.value = titulo;
@@ -386,12 +387,11 @@
                         n2.appendChild(opt.cloneNode(true));
                         n3.appendChild(opt.cloneNode(true));
                     } else {
-                        // Por defecto o si es tarde
                         t1.appendChild(opt.cloneNode(true));
                         t2.appendChild(opt.cloneNode(true));
                         t3.appendChild(opt.cloneNode(true));
                     }
-                    
+
                     let rawImg = row.imagen_url || row.imagen || '';
                     let imagenUrl = '';
                     if (rawImg) {
@@ -414,6 +414,7 @@
                     card.className = "bg-black/90 backdrop-blur-md border border-green-500/30 rounded-xl overflow-hidden shadow-2xl hover:border-green-400 transition duration-300 flex flex-col justify-between relative";
                     
                     card.innerHTML = `
+                        <!-- Cabecera de la tarjeta con la imagen -->
                         <div class="relative z-10">
                             <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
                                 <img src="${imagenUrl}" alt="${titulo}" class="w-full h-full object-cover object-top opacity-85 hover:scale-105 transition duration-500">
@@ -421,6 +422,7 @@
                             </div>
                         </div>
 
+                        <!-- Zona inferior negra con los datos -->
                         <div class="relative z-10 p-6 flex-1 flex flex-col justify-between">
                             <div class="relative z-10">
                                 <h3 class="font-hellfire text-2xl text-white mb-4 tracking-wide line-clamp-1">${titulo}</h3>
@@ -451,11 +453,12 @@
                             </div>
                         </div>
 
+                        <!-- Botones inferiores -->
                         <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-green-500/20 gap-4 relative z-10 bg-black/40">
-                            <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2 rounded-lg text-xs transition shadow-lg shadow-green-500/20 text-center">
+                            <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
                                 Detalles
                             </button>
-                            <button onclick="abrirModalInscripcion()" class="flex-1 bg-black hover:bg-green-950/30 border border-green-500/40 text-green-400 font-bold px-4 py-2 rounded-lg text-xs transition shadow text-center">
+                            <button onclick="abrirModalInscripcion()" class="flex-1 bg-black hover:bg-green-950/30 border border-green-500/40 text-green-400 font-bold px-5 py-2 rounded-lg text-sm transition shadow text-center">
                                 Ir a Inscripción
                             </button>
                         </div>
@@ -470,7 +473,7 @@
             }
         });
 
-        // Funciones de Modales
+        // Funciones del Modal de Detalles
         function abrirModal(idPartida) {
             const partida = partidasData.find((row, idx) => (row.id || row.ID || idx) == idPartida);
             if (!partida) return;
@@ -484,7 +487,16 @@
             document.getElementById('modal-descripcion').innerText = partida.Descripción || partida.descripcion || 'Sin descripción detallada.';
             
             let rawImg = partida.imagen_url || partida.imagen || '';
-            let imagenUrl = rawImg ? (rawImg.startsWith('http') || rawImg.startsWith('imagenes/') ? rawImg : 'imagenes/partidas/' + rawImg) : 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
+            let imagenUrl = '';
+            if (rawImg) {
+                if (rawImg.startsWith('http') || rawImg.startsWith('imagenes/')) {
+                    imagenUrl = rawImg;
+                } else {
+                    imagenUrl = 'imagenes/partidas/' + rawImg;
+                }
+            } else {
+                imagenUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
+            }
             document.getElementById('modal-imagen').src = imagenUrl;
 
             document.getElementById('modal-detalles').classList.remove('hidden');
@@ -494,6 +506,7 @@
             document.getElementById('modal-detalles').classList.add('hidden');
         }
 
+        // Funciones del Modal de Inscripción
         function abrirModalInscripcion() {
             document.getElementById('modal-inscripcion').classList.remove('hidden');
         }
@@ -503,11 +516,17 @@
         }
 
         window.onclick = function(event) {
-            if (event.target == document.getElementById('modal-detalles')) cerrarModal();
-            if (event.target == document.getElementById('modal-inscripcion')) cerrarModalInscripcion();
+            const modalDetalles = document.getElementById('modal-detalles');
+            const modalInscripcion = document.getElementById('modal-inscripcion');
+            if (event.target == modalDetalles) {
+                cerrarModal();
+            }
+            if (event.target == modalInscripcion) {
+                cerrarModalInscripcion();
+            }
         }
 
-        // Envío del Formulario de Inscripción al Script Privado
+        // Envío del Formulario de Inscripción al Script Privado de Google Sheets
         document.getElementById('form-inscripcion').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -531,8 +550,7 @@
             };
 
             // ⚠️ REEMPLAZA ESTA URL CON TU URL DE GOOGLE APPS SCRIPT PRIVADO
-            const urlScriptPrivado = "https://script.google.com/macros/s/AKfycbw8T8dxqCpprP4pw7UEhwHn7HGPjkbTVP7G1jzs0yAehSyUZCteEVGm9CEvKWxzztEe/exec
-";
+            const urlScriptPrivado = "https://script.google.com/macros/s/AKfycbw8T8dxqCpprP4pw7UEhwHn7HGPjkbTVP7G1jzs0yAehSyUZCteEVGm9CEvKWxzztEe/exec";
 
             fetch(urlScriptPrivado, {
                 method: 'POST',
