@@ -125,7 +125,7 @@
         <section id="partidas" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="font-hellfire text-4xl sm:text-5xl text-white mb-3 tracking-wide drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">PARTIDAS DISPONIBLES</h2>
-                <p class="text-gray-400 text-sm">Haz clic en "Detalles" para ver la portada completa y la sinopsis o en "Ir a Inscripción" para apuntarte.</p>
+                <p class="text-gray-400 text-sm">Haz clic en "Detalles" para ver la sinopsis completa o en "Ir a Inscripción" para apuntarte.</p>
             </div>
 
             <!-- Contenedor dinámico de tarjetas -->
@@ -181,7 +181,7 @@
         <p>&copy; 2026 Arcadia Tales • Club de Ocio / Arcadia Cuarte de Huerva. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Modal / Pop-up de Detalles -->
+    <!-- Modal de Detalles de Partida -->
     <div id="modal-detalles" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
         <div class="bg-black/95 border border-green-500/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl shadow-green-500/10 max-h-[90vh] overflow-y-auto">
             <button onclick="cerrarModal()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
@@ -228,13 +228,13 @@
         </div>
     </div>
 
-    <!-- Modal de Inscripción (RGPD Compliant + 3 Opciones + Socio + Comentarios + WhatsApp) -->
+    <!-- Modal de Inscripción (Con concatenación, opciones excluyentes y WhatsApp voluntario) -->
     <div id="modal-inscripcion" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
         <div class="bg-black/95 border border-green-500/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl shadow-green-500/20 max-h-[90vh] overflow-y-auto">
             <button onclick="cerrarModalInscripcion()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
             
             <h3 class="font-hellfire text-3xl text-white mb-2 tracking-wide text-center">Inscripción Arcadia Tales</h3>
-            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, tus preferencias de Tarde y Noche (hasta 3 opciones por turno) y si eres socio del club.</p>
+            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, tus preferencias de Tarde y Noche (hasta 3 opciones) y si eres socio del club.</p>
             
             <form id="form-inscripcion" class="space-y-5">
                 <!-- Datos Personales -->
@@ -251,8 +251,8 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-green-400 mb-1">WhatsApp (Para avisos del evento) *</label>
-                        <input type="tel" id="whatsapp" required placeholder="600000000" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                        <label class="block text-xs font-medium text-green-400 mb-1">WhatsApp (Opcional - Para avisos)</label>
+                        <input type="tel" id="whatsapp" placeholder="600000000" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-green-400">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-green-400 mb-1">¿Eres socio del Club? *</label>
@@ -263,48 +263,48 @@
                     </div>
                 </div>
 
-                <!-- BLOQUE TARDE (3 Opciones) -->
+                <!-- BLOQUE TARDE (1ª Obligatoria + 2ª/3ª Opcionales y excluyentes) -->
                 <div class="border border-green-500/30 bg-green-950/10 p-4 rounded-xl space-y-3">
                     <h4 class="text-green-400 font-bold text-xs uppercase tracking-wider">☀️ Turno de Tarde (Preferencias)</h4>
                     <div>
-                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Tarde)</label>
-                        <select id="tarde-1" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin preferencia / No juego --</option>
+                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Tarde) *</label>
+                        <select id="tarde-1" required onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Selecciona tu 1ª opción --</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Tarde)</label>
-                        <select id="tarde-2" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin preferencia --</option>
+                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Tarde - Opcional)</label>
+                        <select id="tarde-2" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin segunda opción --</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Tarde)</label>
-                        <select id="tarde-3" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin preferencia --</option>
+                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Tarde - Opcional)</label>
+                        <select id="tarde-3" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin tercera opción --</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- BLOQUE NOCHE (3 Opciones) -->
+                <!-- BLOQUE NOCHE (1ª Obligatoria + 2ª/3ª Opcionales y excluyentes) -->
                 <div class="border border-green-500/30 bg-green-950/10 p-4 rounded-xl space-y-3">
                     <h4 class="text-green-400 font-bold text-xs uppercase tracking-wider">🌙 Turno de Noche (Preferencias)</h4>
                     <div>
-                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Noche)</label>
-                        <select id="noche-1" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin preferencia / No juego --</option>
+                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Noche) *</label>
+                        <select id="noche-1" required onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Selecciona tu 1ª opción --</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Noche)</label>
-                        <select id="noche-2" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin preferencia --</option>
+                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Noche - Opcional)</label>
+                        <select id="noche-2" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin segunda opción --</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Noche)</label>
-                        <select id="noche-3" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin preferencia --</option>
+                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Noche - Opcional)</label>
+                        <select id="noche-3" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin tercera opción --</option>
                         </select>
                     </div>
                 </div>
@@ -333,11 +333,13 @@
         </div>
     </div>
 
-    <!-- Script de conexión con Google Sheets y manejo de modales e inscripción -->
+    <!-- Script de conexión con Google Sheets y manejo avanzado de formularios -->
     <script>
         const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXqX1BwrkdcZJhvV1kY6F_Od3OODbvDZoqlHhLv6HRbzC-TnvDgk6DjTLAtErLErcHjLK0SQUdNQNi/pub?output=csv";
 
         let partidasData = [];
+        let listaPartidasTarde = [];
+        let listaPartidasNoche = [];
 
         Papa.parse(csvUrl, {
             download: true,
@@ -348,19 +350,6 @@
                 const container = document.getElementById('partidas-container');
                 container.innerHTML = '';
 
-                // Desplegables del formulario
-                const t1 = document.getElementById('tarde-1');
-                const t2 = document.getElementById('tarde-2');
-                const t3 = document.getElementById('tarde-3');
-                const n1 = document.getElementById('noche-1');
-                const n2 = document.getElementById('noche-2');
-                const n3 = document.getElementById('noche-3');
-
-                // Limpiar selectores adicionales
-                [t1, t2, t3, n1, n2, n3].forEach(sel => {
-                    sel.innerHTML = '<option value="">-- Sin preferencia --</option>';
-                });
-
                 if (partidasData.length === 0) {
                     container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-12">No hay partidas registradas en este momento.</div>';
                     return;
@@ -368,28 +357,22 @@
 
                 partidasData.forEach((row, index) => {
                     const id = row.id || row.ID || index;
-                    const titulo = row.Titulo || row.titulo || 'Partida sin título';
-                    const sistema = row.Sistema || row.sistema || 'Rol de Mesa';
+                    const titulo = row.Titulo || row.titulo || 'Partida';
+                    const sistema = row.Sistema || row.sistema || 'Rol';
                     const director = row['Director de Juego'] || row.director || row.Director || 'Por asignar';
                     const horario = row.Horario || row.horario || 'Por definir';
                     const plazasTotales = row.Plazas || row.plazas || 'Por definir';
                     const plazasLibres = row['Plazas Libres'] || row.plazas_libres || 'Libres';
                     const descripcion = row.Descripción || row.descripcion || 'Sin descripción detallada.';
                     
-                    // Alimentar automáticamente los desplegables del formulario según el horario
-                    const horarioLower = horario.toLowerCase();
-                    const opt = document.createElement('option');
-                    opt.value = titulo;
-                    opt.textContent = titulo + ' (' + horario + ')';
+                    // Concatenación limpia: [Sistema] - Título
+                    const nombreConcatenado = "[" + sistema + "] " + titulo;
 
+                    const horarioLower = horario.toLowerCase();
                     if (horarioLower.includes('noche')) {
-                        n1.appendChild(opt.cloneNode(true));
-                        n2.appendChild(opt.cloneNode(true));
-                        n3.appendChild(opt.cloneNode(true));
+                        listaPartidasNoche.push(nombreConcatenado);
                     } else {
-                        t1.appendChild(opt.cloneNode(true));
-                        t2.appendChild(opt.cloneNode(true));
-                        t3.appendChild(opt.cloneNode(true));
+                        listaPartidasTarde.push(nombreConcatenado);
                     }
 
                     let rawImg = row.imagen_url || row.imagen || '';
@@ -453,12 +436,12 @@
                             </div>
                         </div>
 
-                        <!-- Botones inferiores -->
+                        <!-- Botones inferiores (Inscribirse redirige al modal principal) -->
                         <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-green-500/20 gap-4 relative z-10 bg-black/40">
                             <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
                                 Detalles
                             </button>
-                            <button onclick="abrirModalInscripcion()" class="flex-1 bg-black hover:bg-green-950/30 border border-green-500/40 text-green-400 font-bold px-5 py-2 rounded-lg text-sm transition shadow text-center">
+                            <button onclick="abrirModalInscripcion()" class="flex-1 bg-black hover:bg-green-950/30 border border-green-500/40 text-green-400 font-bold px-5 py-2 rounded-lg text-xs transition shadow text-center">
                                 Ir a Inscripción
                             </button>
                         </div>
@@ -466,12 +449,68 @@
 
                     container.appendChild(card);
                 });
+
+                // Poblar los desplegables iniciales del formulario
+                poblarSelects();
             },
             error: function(err) {
                 console.error('Error al cargar el CSV:', err);
                 document.getElementById('partidas-container').innerHTML = '<div class="col-span-full text-center text-red-400 py-12">No se han podido cargar las partidas. Comprueba que el Google Sheet sea público.</div>';
             }
         });
+
+        // Función para poblar los desplegables manteniendo las opciones seleccionadas si ya se interactuó
+        function poblarSelects() {
+            poblarSelectTurno('tarde', listaPartidasTarde);
+            poblarSelectTurno('noche', listaPartidasNoche);
+        }
+
+        function poblarSelectTurno(turno, lista) {
+            const s1 = document.getElementById(turno + '-1');
+            const s2 = document.getElementById(turno + '-2');
+            const s3 = document.getElementById(turno + '-3');
+
+            const val1 = s1.value;
+            const val2 = s2.value;
+            const val3 = s3.value;
+
+            // Rellenar 1ª Opción (obligatoria)
+            s1.innerHTML = '<option value="">-- Selecciona tu 1ª opción --</option>';
+            lista.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item;
+                opt.textContent = item;
+                s1.appendChild(opt);
+            });
+            s1.value = val1;
+
+            // Rellenar 2ª Opción (excluyendo lo elegido en 1ª)
+            s2.innerHTML = '<option value="">-- Sin segunda opción --</option>';
+            lista.forEach(item => {
+                if (item !== s1.value) {
+                    const opt = document.createElement('option');
+                    opt.value = item;
+                    opt.textContent = item;
+                    s2.appendChild(opt);
+                }
+            });
+            s2.value = val2;
+
+            // Rellenar 3ª Opción (excluyendo lo elegido en 1ª y 2ª)
+            s3.innerHTML = '<option value="">-- Sin tercera opción --</option>';
+            lista.forEach(item => {
+                if (item !== s1.value && item !== s2.value) {
+                    const opt = document.createElement('option');
+                    opt.value = item;
+                    opt.textContent = item;
+                    s3.appendChild(opt);
+                }
+            });
+            s3.value = val3;
+        }
+
+        function actualizarOpcionesTarde() { poblarSelectTurno('tarde', listaPartidasTarde); }
+        function actualizarOpcionesNoche() { poblarSelectTurno('noche', listaPartidasNoche); }
 
         // Funciones del Modal de Detalles
         function abrirModal(idPartida) {
@@ -518,12 +557,8 @@
         window.onclick = function(event) {
             const modalDetalles = document.getElementById('modal-detalles');
             const modalInscripcion = document.getElementById('modal-inscripcion');
-            if (event.target == modalDetalles) {
-                cerrarModal();
-            }
-            if (event.target == modalInscripcion) {
-                cerrarModalInscripcion();
-            }
+            if (event.target == modalDetalles) cerrarModal();
+            if (event.target == modalInscripcion) cerrarModalInscripcion();
         }
 
         // Envío del Formulario de Inscripción al Script Privado de Google Sheets
@@ -550,7 +585,7 @@
             };
 
             // ⚠️ REEMPLAZA ESTA URL CON TU URL DE GOOGLE APPS SCRIPT PRIVADO
-            const urlScriptPrivado = "https://script.google.com/macros/s/AKfycbw8T8dxqCpprP4pw7UEhwHn7HGPjkbTVP7G1jzs0yAehSyUZCteEVGm9CEvKWxzztEe/exec";
+            const urlScriptPrivado = "AQUÍ_URL_WEB_APP_APPS_SCRIPT";
 
             fetch(urlScriptPrivado, {
                 method: 'POST',
@@ -561,6 +596,7 @@
                 alert('¡Inscripción enviada correctamente! Tus preferencias se han guardado con éxito.');
                 cerrarModalInscripcion();
                 document.getElementById('form-inscripcion').reset();
+                poblarSelects(); // Restablecer selects
                 btn.disabled = false;
                 btn.innerText = "Enviar Inscripción";
             }).catch(err => {
