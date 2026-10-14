@@ -228,13 +228,13 @@
         </div>
     </div>
 
-    <!-- Modal de Inscripción (Con concatenación, opciones excluyentes y WhatsApp voluntario) -->
+    <!-- Modal de Inscripción Principal (Con Checkboxes para turnos opcionales) -->
     <div id="modal-inscripcion" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
         <div class="bg-black/95 border border-green-500/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl shadow-green-500/20 max-h-[90vh] overflow-y-auto">
             <button onclick="cerrarModalInscripcion()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
             
             <h3 class="font-hellfire text-3xl text-white mb-2 tracking-wide text-center">Inscripción Arcadia Tales</h3>
-            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, tus preferencias de Tarde y Noche (hasta 3 opciones) y si eres socio del club.</p>
+            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, marca los turnos en los que deseas participar y selecciona tus preferencias.</p>
             
             <form id="form-inscripcion" class="space-y-5">
                 <!-- Datos Personales -->
@@ -263,49 +263,61 @@
                     </div>
                 </div>
 
-                <!-- BLOQUE TARDE (1ª Obligatoria + 2ª/3ª Opcionales y excluyentes) -->
+                <!-- BLOQUE TARDE (Con Checkbox de activación) -->
                 <div class="border border-green-500/30 bg-green-950/10 p-4 rounded-xl space-y-3">
-                    <h4 class="text-green-400 font-bold text-xs uppercase tracking-wider">☀️ Turno de Tarde (Preferencias)</h4>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Tarde) *</label>
-                        <select id="tarde-1" required onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Selecciona tu 1ª opción --</option>
-                        </select>
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" id="check-tarde" onchange="toggleTurno('tarde')" class="w-4 h-4 accent-green-500 cursor-pointer">
+                        <label for="check-tarde" class="text-green-400 font-bold text-xs uppercase tracking-wider cursor-pointer">☀️ Participar en el Turno de Tarde</label>
                     </div>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Tarde - Opcional)</label>
-                        <select id="tarde-2" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin segunda opción --</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Tarde - Opcional)</label>
-                        <select id="tarde-3" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin tercera opción --</option>
-                        </select>
+                    
+                    <div id="container-tarde" class="space-y-3 hidden pl-5 border-l-2 border-green-500/20 mt-2">
+                        <div>
+                            <label class="block text-xs text-gray-300 mb-1">1ª Opción (Tarde) *</label>
+                            <select id="tarde-1" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                                <option value="">-- Selecciona tu 1ª opción --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-300 mb-1">2ª Opción (Tarde - Opcional)</label>
+                            <select id="tarde-2" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                                <option value="">-- Sin segunda opción --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-300 mb-1">3ª Opción (Tarde - Opcional)</label>
+                            <select id="tarde-3" onchange="actualizarOpcionesTarde()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                                <option value="">-- Sin tercera opción --</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <!-- BLOQUE NOCHE (1ª Obligatoria + 2ª/3ª Opcionales y excluyentes) -->
+                <!-- BLOQUE NOCHE (Con Checkbox de activación) -->
                 <div class="border border-green-500/30 bg-green-950/10 p-4 rounded-xl space-y-3">
-                    <h4 class="text-green-400 font-bold text-xs uppercase tracking-wider">🌙 Turno de Noche (Preferencias)</h4>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Noche) *</label>
-                        <select id="noche-1" required onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Selecciona tu 1ª opción --</option>
-                        </select>
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" id="check-noche" onchange="toggleTurno('noche')" class="w-4 h-4 accent-green-500 cursor-pointer">
+                        <label for="check-noche" class="text-green-400 font-bold text-xs uppercase tracking-wider cursor-pointer">🌙 Participar en el Turno de Noche</label>
                     </div>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Noche - Opcional)</label>
-                        <select id="noche-2" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin segunda opción --</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Noche - Opcional)</label>
-                        <select id="noche-3" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
-                            <option value="">-- Sin tercera opción --</option>
-                        </select>
+                    
+                    <div id="container-noche" class="space-y-3 hidden pl-5 border-l-2 border-green-500/20 mt-2">
+                        <div>
+                            <label class="block text-xs text-gray-300 mb-1">1ª Opción (Noche) *</label>
+                            <select id="noche-1" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                                <option value="">-- Selecciona tu 1ª opción --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-300 mb-1">2ª Opción (Noche - Opcional)</label>
+                            <select id="noche-2" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                                <option value="">-- Sin segunda opción --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-300 mb-1">3ª Opción (Noche - Opcional)</label>
+                            <select id="noche-3" onchange="actualizarOpcionesNoche()" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                                <option value="">-- Sin tercera opción --</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -450,7 +462,6 @@
                     container.appendChild(card);
                 });
 
-                // Poblar los desplegables iniciales del formulario
                 poblarSelects();
             },
             error: function(err) {
@@ -459,7 +470,26 @@
             }
         });
 
-        // Función para poblar los desplegables manteniendo las opciones seleccionadas si ya se interactuó
+        // Funciones para mostrar u ocultar turnos con checkbox
+        function toggleTurno(turno) {
+            const isChecked = document.getElementById('check-' + turno).checked;
+            const container = document.getElementById('container-' + turno);
+            const select1 = document.getElementById(turno + '-1');
+
+            if (isChecked) {
+                container.classList.remove('hidden');
+                select1.setAttribute('required', 'required');
+            } else {
+                container.classList.add('hidden');
+                select1.removeAttribute('required');
+                select1.value = "";
+                document.getElementById(turno + '-2').value = "";
+                document.getElementById(turno + '-3').value = "";
+                poblarSelectTurno(turno, turno === 'tarde' ? listaPartidasTarde : listaPartidasNoche);
+            }
+        }
+
+        // Poblar selects evitando duplicados
         function poblarSelects() {
             poblarSelectTurno('tarde', listaPartidasTarde);
             poblarSelectTurno('noche', listaPartidasNoche);
@@ -474,7 +504,6 @@
             const val2 = s2.value;
             const val3 = s3.value;
 
-            // Rellenar 1ª Opción (obligatoria)
             s1.innerHTML = '<option value="">-- Selecciona tu 1ª opción --</option>';
             lista.forEach(item => {
                 const opt = document.createElement('option');
@@ -484,7 +513,6 @@
             });
             s1.value = val1;
 
-            // Rellenar 2ª Opción (excluyendo lo elegido en 1ª)
             s2.innerHTML = '<option value="">-- Sin segunda opción --</option>';
             lista.forEach(item => {
                 if (item !== s1.value) {
@@ -496,7 +524,6 @@
             });
             s2.value = val2;
 
-            // Rellenar 3ª Opción (excluyendo lo elegido en 1ª y 2ª)
             s3.innerHTML = '<option value="">-- Sin tercera opción --</option>';
             lista.forEach(item => {
                 if (item !== s1.value && item !== s2.value) {
@@ -565,6 +592,14 @@
         document.getElementById('form-inscripcion').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            const quiereTarde = document.getElementById('check-tarde').checked;
+            const quiereNoche = document.getElementById('check-noche').checked;
+
+            if (!quiereTarde && !quiereNoche) {
+                const confirmar = confirm("No has seleccionado ningún turno de juego (ni tarde ni noche). ¿Estás seguro de que deseas enviar la inscripción sin apuntarte a ninguna partida?");
+                if (!confirmar) return;
+            }
+
             const btn = document.getElementById('btn-enviar');
             btn.disabled = true;
             btn.innerText = "Enviando inscripción...";
@@ -574,12 +609,12 @@
                 email: document.getElementById('email').value,
                 whatsapp: document.getElementById('whatsapp').value,
                 socio: document.getElementById('socio').value,
-                tarde1: document.getElementById('tarde-1').value,
-                tarde2: document.getElementById('tarde-2').value,
-                tarde3: document.getElementById('tarde-3').value,
-                noche1: document.getElementById('noche-1').value,
-                noche2: document.getElementById('noche-2').value,
-                noche3: document.getElementById('noche-3').value,
+                tarde1: quiereTarde ? document.getElementById('tarde-1').value : "NO PARTICIPA",
+                tarde2: quiereTarde ? document.getElementById('tarde-2').value : "",
+                tarde3: quiereTarde ? document.getElementById('tarde-3').value : "",
+                noche1: quiereNoche ? document.getElementById('noche-1').value : "NO PARTICIPA",
+                noche2: quiereNoche ? document.getElementById('noche-2').value : "",
+                noche3: quiereNoche ? document.getElementById('noche-3').value : "",
                 comentarios: document.getElementById('comentarios').value,
                 rgpd: document.getElementById('rgpd-check').checked ? 'SI' : 'NO'
             };
@@ -596,7 +631,11 @@
                 alert('¡Inscripción enviada correctamente! Tus preferencias se han guardado con éxito.');
                 cerrarModalInscripcion();
                 document.getElementById('form-inscripcion').reset();
-                poblarSelects(); // Restablecer selects
+                
+                document.getElementById('container-tarde').classList.add('hidden');
+                document.getElementById('container-noche').classList.add('hidden');
+                
+                poblarSelects();
                 btn.disabled = false;
                 btn.innerText = "Enviar Inscripción";
             }).catch(err => {
