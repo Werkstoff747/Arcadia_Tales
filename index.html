@@ -77,11 +77,14 @@
                 </a>
             </div>
 
-            <!-- Navegación a la derecha -->
-            <nav class="flex space-x-6 sm:space-x-8 text-sm font-medium">
+            <!-- Navegación a la derecha con botón de inscripción -->
+            <nav class="flex items-center space-x-6 sm:space-x-8 text-sm font-medium">
                 <a href="#inicio" class="text-green-400 font-semibold hover:text-green-300 transition">Inicio</a>
                 <a href="#partidas" class="hover:text-green-300 transition">Partidas</a>
                 <a href="#ubicacion" class="hover:text-green-300 transition">Ubicación</a>
+                <button onclick="abrirModalInscripcion()" class="bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2 rounded-lg text-xs sm:text-sm transition shadow-lg shadow-green-500/20">
+                    Inscribirse
+                </button>
             </nav>
         </div>
     </header>
@@ -108,9 +111,13 @@
                 </h2>
                 
                 <!-- 4. Descripción de la 2ª edición -->
-                <p class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto drop-shadow leading-relaxed">
+                <p class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto drop-shadow leading-relaxed mb-8">
                     Llega la 2ª edición de nuestras jornadas de rol presenciales en Cuarte de Huerva (Zaragoza). ¡La leyenda continúa, ven a escribir tu propia historia!
                 </p>
+
+                <button onclick="abrirModalInscripcion()" class="bg-green-500 hover:bg-green-400 text-black font-hellfire text-xl px-8 py-3 rounded-xl transition shadow-xl shadow-green-500/30 tracking-wide">
+                    ¡Quiero Inscribirme!
+                </button>
             </div>
         </section>
 
@@ -118,7 +125,7 @@
         <section id="partidas" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="font-hellfire text-4xl sm:text-5xl text-white mb-3 tracking-wide drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">PARTIDAS DISPONIBLES</h2>
-                <p class="text-gray-400 text-sm">Haz clic en "Detalles" para ver la portada completa y la sinopsis o en "Inscribirse" para apuntarte.</p>
+                <p class="text-gray-400 text-sm">Explora las aventuras de Tarde y Noche, consulta sus detalles o pulsa en "Ir a Inscripción" para apuntarte[cite: 1].</p>
             </div>
 
             <!-- Contenedor dinámico de tarjetas -->
@@ -174,7 +181,7 @@
         <p>&copy; 2026 Arcadia Tales • Club de Ocio / Arcadia Cuarte de Huerva. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Modal / Pop-up de Detalles -->
+    <!-- Modal de Detalles de Partida -->
     <div id="modal-detalles" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
         <div class="bg-black/95 border border-green-500/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl shadow-green-500/10 max-h-[90vh] overflow-y-auto">
             <button onclick="cerrarModal()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
@@ -208,14 +215,125 @@
                 </div>
             </div>
 
-            <div class="mb-2">
+            <div class="mb-6">
                 <h4 class="text-green-400 font-medium mb-2">Descripción de la Aventura:</h4>
                 <p id="modal-descripcion" class="text-gray-300 text-sm leading-relaxed bg-green-950/20 border border-green-500/20 p-4 rounded-xl"></p>
+            </div>
+
+            <div class="text-center">
+                <button onclick="cerrarModal(); abrirModalInscripcion();" class="bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-2.5 rounded-lg text-sm transition shadow">
+                    Ir a Inscripción
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Script de conexión con Google Sheets y manejo del Modal -->
+    <!-- Modal de Inscripción (RGPD Compliant + 3 Opciones + Socio + Comentarios + WhatsApp) -->
+    <div id="modal-inscripcion" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
+        <div class="bg-black/95 border border-green-500/50 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl shadow-green-500/20 max-h-[90vh] overflow-y-auto">
+            <button onclick="cerrarModalInscripcion()" class="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-2xl font-bold">&times;</button>
+            
+            <h3 class="font-hellfire text-3xl text-white mb-2 tracking-wide text-center">Inscripción Arcadia Tales</h3>
+            <p class="text-gray-400 text-xs text-center mb-6">Indica tus datos, tus preferencias de Tarde y Noche (hasta 3 opciones por turno) y si eres socio del club[cite: 1].</p>
+            
+            <form id="form-inscripcion" class="space-y-5">
+                <!-- Datos Personales -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-green-400 mb-1">Nombre o Alias *</label>
+                        <input type="text" id="nombre" required class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-green-400 mb-1">Correo Electrónico *</label>
+                        <input type="email" id="email" required class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-green-400 mb-1">WhatsApp (Para avisos del evento) *</label>
+                        <input type="tel" id="whatsapp" required placeholder="600000000" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-green-400 mb-1">¿Eres socio del Club? *</label>
+                        <select id="socio" required class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="NO">No</option>
+                            <option value="SI">Sí</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- BLOQUE TARDE (3 Opciones) -->
+                <div class="border border-green-500/30 bg-green-950/10 p-4 rounded-xl space-y-3">
+                    <h4 class="text-green-400 font-bold text-xs uppercase tracking-wider">☀️ Turno de Tarde (Preferencias)</h4>
+                    <div>
+                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Tarde)</label>
+                        <select id="tarde-1" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin preferencia / No juego --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Tarde)</label>
+                        <select id="tarde-2" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin preferencia --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Tarde)</label>
+                        <select id="tarde-3" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin preferencia --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- BLOQUE NOCHE (3 Opciones) -->
+                <div class="border border-green-500/30 bg-green-950/10 p-4 rounded-xl space-y-3">
+                    <h4 class="text-green-400 font-bold text-xs uppercase tracking-wider">🌙 Turno de Noche (Preferencias)</h4>
+                    <div>
+                        <label class="block text-xs text-gray-300 mb-1">1ª Opción (Noche)</label>
+                        <select id="noche-1" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin preferencia / No juego --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-300 mb-1">2ª Opción (Noche)</label>
+                        <select id="noche-2" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin preferencia --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-300 mb-1">3ª Opción (Noche)</label>
+                        <select id="noche-3" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-green-400">
+                            <option value="">-- Sin preferencia --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Comentarios / Observaciones -->
+                <div>
+                    <label class="block text-xs font-medium text-green-400 mb-1">Comentarios u observaciones (Ej: Quería ir en mesa con Juan Pérez)</label>
+                    <textarea id="comentarios" rows="2" class="w-full bg-gray-900 border border-green-500/30 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-green-400"></textarea>
+                </div>
+
+                <!-- Capa RGPD Obligatoria -->
+                <div class="bg-green-950/20 border border-green-500/20 p-3 rounded-xl text-[11px] text-gray-400 space-y-2">
+                    <p><strong>Protección de Datos:</strong> Los datos facilitados serán tratados por el Club de Ocio Arcadia para la gestión exclusiva de las jornadas[cite: 1].</p>
+                    <div class="flex items-start space-x-2">
+                        <input type="checkbox" id="rgpd-check" required class="mt-0.5 accent-green-500">
+                        <label for="rgpd-check" class="text-gray-300 text-[11px] leading-tight">
+                            He leído y acepto la política de privacidad y el tratamiento de mis datos para esta inscripción. *
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-enviar" class="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-green-500/20">
+                    Enviar Inscripción
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script de conexión con Google Sheets y manejo de modales e inscripción -->
     <script>
         const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXqX1BwrkdcZJhvV1kY6F_Od3OODbvDZoqlHhLv6HRbzC-TnvDgk6DjTLAtErLErcHjLK0SQUdNQNi/pub?output=csv";
 
@@ -230,6 +348,19 @@
                 const container = document.getElementById('partidas-container');
                 container.innerHTML = '';
 
+                // Desplegables del formulario
+                const t1 = document.getElementById('tarde-1');
+                const t2 = document.getElementById('tarde-2');
+                const t3 = document.getElementById('tarde-3');
+                const n1 = document.getElementById('noche-1');
+                const n2 = document.getElementById('noche-2');
+                const n3 = document.getElementById('noche-3');
+
+                // Limpiar selectores
+                [t1, t2, t3, n1, n2, n3].forEach(sel => {
+                    sel.innerHTML = '<option value="">-- Sin preferencia --</option>';
+                });
+
                 if (partidasData.length === 0) {
                     container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-12">No hay partidas registradas en este momento.</div>';
                     return;
@@ -243,7 +374,23 @@
                     const horario = row.Horario || row.horario || 'Por definir';
                     const plazasTotales = row.Plazas || row.plazas || 'Por definir';
                     const plazasLibres = row['Plazas Libres'] || row.plazas_libres || 'Libres';
-                    const descripcion = row.Descripción || row.descripcion || 'Sin descripción detallada.';
+                    
+                    // Añadir opciones a los desplegables según el turno detectado
+                    const horarioLower = horario.toLowerCase();
+                    const opt = document.createElement('option');
+                    opt.value = titulo;
+                    opt.textContent = titulo + ' (' + horario + ')';
+
+                    if (horarioLower.includes('noche')) {
+                        n1.appendChild(opt.cloneNode(true));
+                        n2.appendChild(opt.cloneNode(true));
+                        n3.appendChild(opt.cloneNode(true));
+                    } else {
+                        // Por defecto o si es tarde
+                        t1.appendChild(opt.cloneNode(true));
+                        t2.appendChild(opt.cloneNode(true));
+                        t3.appendChild(opt.cloneNode(true));
+                    }
                     
                     let rawImg = row.imagen_url || row.imagen || '';
                     let imagenUrl = '';
@@ -257,8 +404,6 @@
                         imagenUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
                     }
 
-                    const enlaceInscripcion = row.enlace_inscripcion || row.enlace || '#';
-
                     const libresLower = plazasLibres.toLowerCase();
                     const esCompleta = libresLower.includes('completa') || libresLower.startsWith('0/');
                     const badgeClass = esCompleta 
@@ -269,7 +414,6 @@
                     card.className = "bg-black/90 backdrop-blur-md border border-green-500/30 rounded-xl overflow-hidden shadow-2xl hover:border-green-400 transition duration-300 flex flex-col justify-between relative";
                     
                     card.innerHTML = `
-                        <!-- Cabecera de la tarjeta con la imagen -->
                         <div class="relative z-10">
                             <div class="h-48 w-full overflow-hidden bg-gray-900 relative">
                                 <img src="${imagenUrl}" alt="${titulo}" class="w-full h-full object-cover object-top opacity-85 hover:scale-105 transition duration-500">
@@ -277,14 +421,11 @@
                             </div>
                         </div>
 
-                        <!-- Zona inferior negra con los datos -->
                         <div class="relative z-10 p-6 flex-1 flex flex-col justify-between">
                             <div class="relative z-10">
                                 <h3 class="font-hellfire text-2xl text-white mb-4 tracking-wide line-clamp-1">${titulo}</h3>
                                 
-                                <!-- Bloque de metadatos con posición relativa para centrar la marca de agua exactamente entre las líneas verdes -->
                                 <div class="space-y-2.5 text-sm text-gray-300 border-t border-green-500/20 pt-4 relative">
-                                    <!-- Marca de agua centrada exclusivamente en la zona de metadatos -->
                                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 z-0">
                                         <img src="imagenes/escudo_transparente.png" alt="" class="w-28 h-auto filter brightness-0 invert">
                                     </div>
@@ -310,14 +451,13 @@
                             </div>
                         </div>
 
-                        <!-- Botones inferiores -->
                         <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-green-500/20 gap-4 relative z-10 bg-black/40">
-                            <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
+                            <button onclick="abrirModal('${id}')" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2 rounded-lg text-xs transition shadow-lg shadow-green-500/20 text-center">
                                 Detalles
                             </button>
-                            <a href="${enlaceInscripcion}" target="_blank" class="flex-1 bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-2 rounded-lg text-sm transition shadow-lg shadow-green-500/20 text-center">
-                                Inscribirse
-                            </a>
+                            <button onclick="abrirModalInscripcion()" class="flex-1 bg-black hover:bg-green-950/30 border border-green-500/40 text-green-400 font-bold px-4 py-2 rounded-lg text-xs transition shadow text-center">
+                                Ir a Inscripción
+                            </button>
                         </div>
                     `;
 
@@ -330,6 +470,7 @@
             }
         });
 
+        // Funciones de Modales
         function abrirModal(idPartida) {
             const partida = partidasData.find((row, idx) => (row.id || row.ID || idx) == idPartida);
             if (!partida) return;
@@ -343,16 +484,7 @@
             document.getElementById('modal-descripcion').innerText = partida.Descripción || partida.descripcion || 'Sin descripción detallada.';
             
             let rawImg = partida.imagen_url || partida.imagen || '';
-            let imagenUrl = '';
-            if (rawImg) {
-                if (rawImg.startsWith('http') || rawImg.startsWith('imagenes/')) {
-                    imagenUrl = rawImg;
-                } else {
-                    imagenUrl = 'imagenes/partidas/' + rawImg;
-                }
-            } else {
-                imagenUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
-            }
+            let imagenUrl = rawImg ? (rawImg.startsWith('http') || rawImg.startsWith('imagenes/') ? rawImg : 'imagenes/partidas/' + rawImg) : 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
             document.getElementById('modal-imagen').src = imagenUrl;
 
             document.getElementById('modal-detalles').classList.remove('hidden');
@@ -362,12 +494,64 @@
             document.getElementById('modal-detalles').classList.add('hidden');
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal-detalles');
-            if (event.target == modal) {
-                cerrarModal();
-            }
+        function abrirModalInscripcion() {
+            document.getElementById('modal-inscripcion').classList.remove('hidden');
         }
+
+        function cerrarModalInscripcion() {
+            document.getElementById('modal-inscripcion').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal-detalles')) cerrarModal();
+            if (event.target == document.getElementById('modal-inscripcion')) cerrarModalInscripcion();
+        }
+
+        // Envío del Formulario de Inscripción al Script Privado
+        document.getElementById('form-inscripcion').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-enviar');
+            btn.disabled = true;
+            btn.innerText = "Enviando inscripción...";
+
+            const datos = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                socio: document.getElementById('socio').value,
+                tarde1: document.getElementById('tarde-1').value,
+                tarde2: document.getElementById('tarde-2').value,
+                tarde3: document.getElementById('tarde-3').value,
+                noche1: document.getElementById('noche-1').value,
+                noche2: document.getElementById('noche-2').value,
+                noche3: document.getElementById('noche-3').value,
+                comentarios: document.getElementById('comentarios').value,
+                rgpd: document.getElementById('rgpd-check').checked ? 'SI' : 'NO'
+            };
+
+            // ⚠️ REEMPLAZA ESTA URL CON TU URL DE GOOGLE APPS SCRIPT PRIVADO
+            const urlScriptPrivado = "https://script.google.com/macros/s/AKfycbw8T8dxqCpprP4pw7UEhwHn7HGPjkbTVP7G1jzs0yAehSyUZCteEVGm9CEvKWxzztEe/exec
+";
+
+            fetch(urlScriptPrivado, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            }).then(() => {
+                alert('¡Inscripción enviada correctamente! Tus preferencias se han guardado con éxito.');
+                cerrarModalInscripcion();
+                document.getElementById('form-inscripcion').reset();
+                btn.disabled = false;
+                btn.innerText = "Enviar Inscripción";
+            }).catch(err => {
+                console.error('Error:', err);
+                alert('Hubo un error al enviar la inscripción. Inténtalo de nuevo.');
+                btn.disabled = false;
+                btn.innerText = "Enviar Inscripción";
+            });
+        });
     </script>
 </body>
 </html>
