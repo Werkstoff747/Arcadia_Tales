@@ -121,17 +121,34 @@
             </div>
         </section>
 
-        <!-- Sección de Partidas Dinámicas -->
+        <!-- Sección de Partidas Dinámicas Separadas (Tarde y Noche) -->
         <section id="partidas" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="font-hellfire text-4xl sm:text-5xl text-white mb-3 tracking-wide drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">PARTIDAS DISPONIBLES</h2>
                 <p class="text-gray-400 text-sm">Haz clic en "Detalles" para ver la sinopsis completa o en "Ir a Inscripción" para apuntarte.</p>
             </div>
 
-            <!-- Contenedor dinámico de tarjetas -->
-            <div id="partidas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="col-span-full text-center text-green-400 py-12">
-                    Cargando partidas desde el Excel...
+            <!-- BLOQUE TARDE -->
+            <div class="mb-16">
+                <h3 class="font-hellfire text-2xl sm:text-3xl text-green-400 mb-6 tracking-wide border-b border-green-500/30 pb-3 flex items-center space-x-3">
+                    <span>☀️ Turno de Tarde (17:00 a 21:00)</span>
+                </h3>
+                <div id="partidas-tarde-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="col-span-full text-center text-green-400/70 py-6">
+                        Cargando partidas de tarde...
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOQUE NOCHE -->
+            <div>
+                <h3 class="font-hellfire text-2xl sm:text-3xl text-green-400 mb-6 tracking-wide border-b border-green-500/30 pb-3 flex items-center space-x-3">
+                    <span>🌙 Turno de Noche (22:00 a 02:00)</span>
+                </h3>
+                <div id="partidas-noche-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="col-span-full text-center text-green-400/70 py-6">
+                        Cargando partidas de noche...
+                    </div>
                 </div>
             </div>
         </section>
@@ -345,7 +362,7 @@
         </div>
     </div>
 
-    <!-- Script de conexión con Google Sheets y manejo avanzado de formularios -->
+    <!-- Script de conexión con Google Sheets y manejo avanzado de tarjetas/inscripciones -->
     <script>
         const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXqX1BwrkdcZJhvV1kY6F_Od3OODbvDZoqlHhLv6HRbzC-TnvDgk6DjTLAtErLErcHjLK0SQUdNQNi/pub?output=csv";
 
@@ -359,13 +376,20 @@
             skipEmptyLines: true,
             complete: function(results) {
                 partidasData = results.data;
-                const container = document.getElementById('partidas-container');
-                container.innerHTML = '';
+                const containerTarde = document.getElementById('partidas-tarde-container');
+                const containerNoche = document.getElementById('partidas-noche-container');
+                
+                containerTarde.innerHTML = '';
+                containerNoche.innerHTML = '';
 
                 if (partidasData.length === 0) {
-                    container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-12">No hay partidas registradas en este momento.</div>';
+                    containerTarde.innerHTML = '<div class="col-span-full text-center text-gray-400 py-6">No hay partidas de tarde registradas.</div>';
+                    containerNoche.innerHTML = '<div class="col-span-full text-center text-gray-400 py-6">No hay partidas de noche registradas.</div>';
                     return;
                 }
+
+                let hayTarde = false;
+                let hayNoche = false;
 
                 partidasData.forEach((row, index) => {
                     const id = row.id || row.ID || index;
@@ -377,14 +401,16 @@
                     const plazasLibres = row['Plazas Libres'] || row.plazas_libres || 'Libres';
                     const descripcion = row.Descripción || row.descripcion || 'Sin descripción detallada.';
                     
-                    // Concatenación limpia: [Sistema] - Título
                     const nombreConcatenado = "[" + sistema + "] " + titulo;
-
                     const horarioLower = horario.toLowerCase();
-                    if (horarioLower.includes('noche')) {
+                    const esNoche = horarioLower.includes('noche');
+
+                    if (esNoche) {
                         listaPartidasNoche.push(nombreConcatenado);
+                        hayNoche = true;
                     } else {
                         listaPartidasTarde.push(nombreConcatenado);
+                        hayTarde = true;
                     }
 
                     let rawImg = row.imagen_url || row.imagen || '';
@@ -459,14 +485,22 @@
                         </div>
                     `;
 
-                    container.appendChild(card);
+                    if (esNoche) {
+                        containerNoche.appendChild(card);
+                    } else {
+                        containerTarde.appendChild(card);
+                    }
                 });
+
+                if (!hayTarde) containerTarde.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6">No hay partidas de tarde programadas.</div>';
+                if (!hayNoche) containerNoche.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6">No hay partidas de noche programadas.</div>';
 
                 poblarSelects();
             },
             error: function(err) {
                 console.error('Error al cargar el CSV:', err);
-                document.getElementById('partidas-container').innerHTML = '<div class="col-span-full text-center text-red-400 py-12">No se han podido cargar las partidas. Comprueba que el Google Sheet sea público.</div>';
+                document.getElementById('partidas-tarde-container').innerHTML = '<div class="col-span-full text-center text-red-400 py-6">No se han podido cargar las partidas de tarde.</div>';
+                document.getElementById('partidas-noche-container').innerHTML = '<div class="col-span-full text-center text-red-400 py-6">No se han podido cargar las partidas de noche.</div>';
             }
         });
 
@@ -619,7 +653,6 @@
                 rgpd: document.getElementById('rgpd-check').checked ? 'SI' : 'NO'
             };
 
-            // ⚠️ REEMPLAZA ESTA URL CON TU URL DE GOOGLE APPS SCRIPT PRIVADO
             const urlScriptPrivado = "https://script.google.com/macros/s/AKfycbw8T8dxqCpprP4pw7UEhwHn7HGPjkbTVP7G1jzs0yAehSyUZCteEVGm9CEvKWxzztEe/exec";
 
             fetch(urlScriptPrivado, {
